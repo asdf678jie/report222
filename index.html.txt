@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>智慧财税管理智能体 | 小高有限公司</title>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box;font-family:"Microsoft Yahei",sans-serif;}
+        :root{
+            --primary:#165DFF;
+            --success:#00B42A;
+            --warning:#FF7D00;
+            --danger:#F53F3F;
+            --gray1:#1D2129;
+            --gray2:#4E5969;
+            --gray3:#86909C;
+            --gray4:#F2F3F5;
+            --white:#ffffff;
+        }
+        body{background:#F7F8FA;color:var(--gray1);}
+        .header{
+            background:var(--primary);
+            color:white;
+            padding:14px 24px;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+        }
+        .header h1{font-size:20px;font-weight:600;}
+        .company-info{font-size:14px;opacity:0.9;}
+        .nav{
+            background:white;
+            display:flex;
+            border-bottom:1px solid #E5E6EB;
+            overflow-x:auto;
+        }
+        .nav-item{
+            padding:14px 20px;
+            cursor:pointer;
+            border-bottom:2px solid transparent;
+            white-space:nowrap;
+        }
+        .nav-item.active{
+            border-bottom-color:var(--primary);
+            color:var(--primary);
+            font-weight:500;
+        }
+        .container{padding:20px;max-width:1400px;margin:0 auto;}
+        .page{display:none;}
+        .page.active{display:block;}
+        .card{
+            background:white;
+            border-radius:10px;
+            padding:20px;
+            margin-bottom:16px;
+            box-shadow:0 2px 8px rgba(0,0,0,0.06);
+        }
+        .card h2{font-size:17px;margin-bottom:16px;border-left:4px solid var(--primary);padding-left:10px;}
+        .grid-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:16px;}
+        .grid-2{grid-template-columns:1fr 1fr;}
+        .stat-item{padding:16px;border-radius:8px;background:var(--gray4);text-align:center;}
+        .stat-item .num{font-size:24px;font-weight:bold;color:var(--primary);margin:6px 0;}
+        .btn{
+            padding:8px 16px;border-radius:6px;border:none;cursor:pointer;font-size:14px;
+        }
+        .btn-primary{background:var(--primary);color:white;}
+        .btn-success{background:var(--success);color:white;}
+        .btn-warning{background:var(--warning);color:white;}
+        .btn-danger{background:var(--danger);color:white;}
+        .btn-default{background:var(--gray4);color:var(--gray2);}
+        .input-box{
+            width:100%;padding:9px 12px;border:1px solid #DCDFE6;border-radius:6px;margin:8px 0;
+        }
+        textarea.input-box{min-height:100px;resize:vertical;}
+        table{width:100%;border-collapse:collapse;margin-top:10px;font-size:14px;}
+        th,td{border:1px solid #E5E6EB;padding:10px;text-align:left;}
+        th{background:#F2F3F5;}
+        .tag{
+            display:inline-block;padding:3px 8px;border-radius:4px;font-size:12px;color:white;margin:2px;
+        }
+        .tag-green{background:var(--success);}
+        .tag-orange{background:var(--warning);}
+        .tag-red{background:var(--danger);}
+        .tag-blue{background:var(--primary);}
+        .upload-area{
+            border:2px dashed #C9CDD4;border-radius:8px;padding:30px;text-align:center;color:var(--gray3);
+            cursor:pointer;margin:10px 0;
+        }
+        .msg-box{
+            position:fixed;right:20px;bottom:20px;background:white;padding:14px 18px;border-radius:8px;
+            box-shadow:0 4px 16px rgba(0,0,0,0.15);display:none;z-index:99;
+        }
+        .chat-box{
+            border:1px solid #E5E6EB;border-radius:8px;height:320px;overflow-y:auto;padding:12px;background:#FAFAFA;
+        }
+        .chat-msg{margin:8px 0;}
+        .chat-robot{color:var(--primary);}
+        .chat-user{color:var(--gray1);text-align:right;}
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>智慧财税管理智能体</h1>
+        <div class="company-info">小高有限公司｜陕西西安长安区｜成立日期：2026-10-01</div>
+    </div>
+    <div class="nav">
+        <div class="nav-item active" data-page="home">企业中心</div>
+        <div class="nav-item" data-page="data">数据上传</div>
+        <div class="nav-item" data-page="tax">计税申报</div>
+        <div class="nav-item" data-page="policy">政策中心</div>
+        <div class="nav-item" data-page="risk">风险看板</div>
+        <div class="nav-item" data-page="qa">智能问答</div>
+        <div class="nav-item" data-page="notice">消息提醒</div>
+    </div>
+    <div class="container">
+        <!-- 企业中心 -->
+        <div class="page active" id="home">
+            <div class="card">
+                <h2>企业画像档案</h2>
+                <div class="grid-row">
+                    <div class="stat-item">
+                        <div>企业类型</div>
+                        <div class="num">有限责任公司</div>
+                    </div>
+                    <div class="stat-item">
+                        <div>增值税身份</div>
+                        <div class="num">小规模纳税人</div>
+                    </div>
+                    <div class="stat-item">
+                        <div>所属行业</div>
+                        <div class="num">商贸零售</div>
+                    </div>
+                </div>
+                <div class="grid-row grid-2">
+                    <div class="stat-item">
+                        <div>注册地址</div>
+                        <div class="num" style="font-size:16px">西安市长安区</div>
+                    </div>
+                    <div class="stat-item">
+                        <div>成立时间</div>
+                        <div class="num" style="font-size:16px">2026-10-01</div>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <h2>财税概览看板</h2>
+                <div class="grid-row">
+                    <div class="stat-item">
+                        <div>待申报税种</div>
+                        <div class="num">2</div>
+                        <span class="tag tag-orange">待处理</span>
+                    </div>
+                    <div class="stat-item">
+                        <div>可享受优惠</div>
+                        <div class="num">3</div>
+                        <span class="tag tag-green">可减免</span>
+                    </div>
+                    <div class="stat-item">
+                        <div>涉税风险点</div>
+                        <div class="num">1</div>
+                        <span class="tag tag-red">待核查</span>
+                    </div>
+                </div>
+                <button class="btn btn-primary" onclick="switchPage('tax')">前往计税申报</button>
+                <button class="btn btn-warning" onclick="switchPage('risk')">查看风险报告</button>
+            </div>
+        </div>
+
+        <!-- 数据上传 -->
+        <div class="page" id="data">
+            <div class="card">
+                <h2>多源财税数据采集</h2>
+                <div class="upload-area" id="uploadArea">
+                    <p>点击或拖拽文件上传：发票PDF、合同扫描件、银行流水、财务报表（支持PDF/图片/Excel）</p>
+                    <input type="file" id="fileInput" style="display:none" multiple accept=".pdf,.jpg,.png,.xlsx,.xls">
+                </div>
+                <p>已上传文件列表：</p>
+                <table>
+                    <thead>
+                        <tr><th>文件名</th><th>文件类型</th><th>识别状态</th><th>操作</th></tr>
+                    </thead>
+                    <tbody id="fileList">
+                        <tr><td>示例财务报表.xlsx</td><td>结构化财务数据</td><td><span class="tag tag-green">解析完成</span></td><td><button class="btn btn-default">预览</button></td></tr>
+                    </tbody>
+                </table>
+                <br>
+                <button class="btn btn-success" onclick="showMsg('数据清洗、标准化、科目勾稽校验完成！')">启动数据清洗&关联分析</button>
+            </div>
+        </div>
+
+        <!-- 计税申报 -->
+        <div class="page" id="tax">
+            <div class="card">
+                <h2>自动计税 & 申报表生成</h2>
+                <div class="grid-row">
+                    <div>
+                        <label>计税所属期</label>
+                        <input class="input-box" value="2026-10">
+                    </div>
+                    <div>
+                        <label>营业收入（元）</label>
+                        <input class="input-box" value="280000">
+                    </div>
+                    <div>
+                        <label>成本费用（元）</label>
+                        <input class="input-box" value="160000">
+                    </div>
+                </div>
+                <button class="btn btn-primary" onclick="calcTax()">一键自动计税</button>
+                <div id="taxResult" style="margin-top:16px;display:none;">
+                    <table>
+                        <thead><tr><th>税种</th><th>计税依据</th><th>适用税率/征收率</th><th>应纳税额</th><th>优惠减免额</th><th>实际应缴</th></tr></thead>
+                        <tbody>
+                            <tr><td>增值税</td><td>280000</td><td>1%</td><td>2772.28</td><td>2772.28</td><td>0.00</td></tr>
+                            <tr><td>企业所得税</td><td>120000</td><td>5%</td><td>6000.00</td><td>3000.00</td><td>3000.00</td></tr>
+                        </tbody>
+                    </table>
+                    <br>
+                    <button class="btn btn-success" onclick="showMsg('申报表已生成，开始模拟提交申报！')">批量提交申报</button>
+                    <button class="btn btn-default" onclick="showMsg('申报表下载成功')">下载全套申报表归档</button>
+                </div>
+            </div>
+            <div class="card">
+                <h2>申报记录查询</h2>
+                <table>
+                    <thead><tr><th>所属期</th><th>税种</th><th>申报时间</th><th>状态</th><th>操作</th></tr></thead>
+                    <tbody>
+                        <tr>
+                            <td>2026-10</td>
+                            <td>增值税、企业所得税</td>
+                            <td>-</td>
+                            <td><span class="tag tag-orange">待申报</span></td>
+                            <td><button class="btn btn-default">查看</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- 政策中心 -->
+        <div class="page" id="policy">
+            <div class="card">
+                <h2>企业政策智能匹配结果</h2>
+                <div>
+                    <span class="tag tag-green">✅ 已享受：小规模纳税人增值税减免政策</span>
+                    <span class="tag tag-green">✅ 可享受：小微企业所得税优惠政策</span>
+                    <span class="tag tag-green">✅ 可享受：六税两费减免优惠</span>
+                    <span class="tag tag-orange">⏳ 暂不满足：研发费用加计扣除（无研发项目）</span>
+                </div>
+                <br>
+                <p><strong>优惠测算汇总：</strong>本期合计减免税额：5772.28元</p>
+                <p><strong>留存备查资料提示：</strong>营业执照、资产总额&从业人数证明、收入凭证</p>
+                <br>
+                <button class="btn btn-primary" onclick="showMsg('优惠测算报告已导出')">导出优惠适配报告</button>
+            </div>
+            <div class="card">
+                <h2>税收政策库（动态更新）</h2>
+                <input class="input-box" placeholder="搜索政策关键词：小规模、小微企业、六税两费">
+                <table>
+                    <thead><tr><th>政策名称</th><th>适用主体</th><th>状态</th></tr></thead>
+                    <tbody>
+                        <tr><td>小规模纳税人增值税减免政策</td><td>小规模纳税人</td><td><span class="tag tag-green">有效</span></td></tr>
+                        <tr><td>小型微利企业所得税优惠</td><td>符合条件小微企业</td><td><span class="tag tag-green">有效</span></td></tr>
+                        <tr><td>六税两费减免政策</td><td>小规模/小型微利</td><td><span class="tag tag-green">有效</span></td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- 风险看板 -->
+        <div class="page" id="risk">
+            <div class="card">
+                <h2>涉税风险智能分析报告</h2>
+                <div class="tag tag-red">高风险：收入确认时点核验</div>
+                <p style="margin:8px 0;">风险描述：本期收入全部确认在当月，系统提示核对合同发货时点，防范提前确认收入风险。</p>
+                <p><strong>整改建议：</strong>核对销售合同、出库单，按照权责发生制确认应税收入，留存业务佐证材料。</p>
+                <br>
+                <div class="tag tag-blue">提示项：申报期限提醒</div>
+                <p>增值税、企业所得税按期申报，避免逾期产生滞纳金。</p>
+                <br>
+                <button class="btn btn-warning" onclick="showMsg('风险分析报告已生成')">导出完整风险报告</button>
+            </div>
+        </div>
+
+        <!-- 智能问答 -->
+        <div class="page" id="qa">
+            <div class="card">
+                <h2>财税智能问答（NLP财税问答）</h2>
+                <div class="chat-box" id="chatBox">
+                    <div class="chat-msg chat-robot">【智能财税助手】您好，请问您有什么财税、政策、计税相关问题？</div>
+                </div>
+                <div style="display:flex;gap:8px;margin-top:10px;">
+                    <input class="input-box" id="qaInput" placeholder="输入问题，例如：小规模增值税优惠是什么？">
+                    <button class="btn btn-primary" onclick="sendQa()">发送</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 消息提醒 -->
+        <div class="page" id="notice">
+            <div class="card">
+                <h2>站内合规提醒</h2>
+                <table>
+                    <thead><tr><th>提醒类型</th><th>内容</th><th>优先级</th><th>状态</th></tr></thead>
+                    <tbody>
+                        <tr>
+                            <td>申报期限提醒</td>
+                            <td>按期完成增值税及附加、企业所得税申报</td>
+                            <td><span class="tag tag-orange">重要</span></td>
+                            <td>未处理</td>
+                        </tr>
+                        <tr>
+                            <td>政策变更提醒</td>
+                            <td>陕西六税两费政策延续，自动适配本企业</td>
+                            <td><span class="tag tag-blue">通知</span></td>
+                            <td>已读</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="msg-box" id="msg">操作成功</div>
+
+<script>
+    // 导航切换
+    const navItems = document.querySelectorAll('.nav-item');
+    const pages = document.querySelectorAll('.page');
+    function switchPage(pageId){
+        navItems.forEach(i=>i.classList.remove('active'));
+        pages.forEach(p=>p.classList.remove('active'));
+        document.querySelector(`[data-page="${pageId}"]`).classList.add('active');
+        document.getElementById(pageId).classList.add('active');
+    }
+    navItems.forEach(item=>{
+        item.onclick = ()=>switchPage(item.dataset.page);
+    })
+
+    // 文件上传模拟
+    const uploadArea = document.getElementById('uploadArea');
+    const fileInput = document.getElementById('fileInput');
+    uploadArea.onclick = ()=>fileInput.click();
+    fileInput.onchange = function(){
+        showMsg('文件上传成功，正在进行OCR文本抽取与数据识别');
+    }
+
+    // 计税模拟
+    function calcTax(){
+        document.getElementById('taxResult').style.display='block';
+        showMsg('计税完成，自动生成申报表，支持人工复核调整');
+    }
+
+    // 消息弹窗
+    function showMsg(text){
+        const m = document.getElementById('msg');
+        m.innerText = text;
+        m.style.display='block';
+        setTimeout(()=>m.style.display='none',2200);
+    }
+
+    // 智能问答
+    function sendQa(){
+        const input = document.getElementById('qaInput');
+        const box = document.getElementById('chatBox');
+        const text = input.value.trim();
+        if(!text) return;
+        box.innerHTML += `<div class="chat-msg chat-user">用户：${text}</div>`;
+        // 固定财税问答回复（演示）
+        let ans = "根据税收知识图谱推理：小高有限公司为西安小规模商贸企业，可以享受小规模增值税减免、小微企业所得税优惠、陕西六税两费政策；请留意留存备查资料，按时申报。";
+        box.innerHTML += `<div class="chat-msg chat-robot">财税智能体：${ans}</div>`;
+        box.scrollTop = box.scrollHeight;
+        input.value = "";
+    }
+</script>
+</body>
+</html>
